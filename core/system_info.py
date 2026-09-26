@@ -92,8 +92,20 @@ class ThermalAndFpsMonitor:
 # Global instance
 _monitor = ThermalAndFpsMonitor()
 
+_cached_specs = None
+
 def get_system_specs() -> dict:
-    """Returns basic system specs (CPU, GPU, RAM, OS, Disk)."""
+    """Returns basic system specs (CPU, GPU, RAM, OS, Disk). Cached to eliminate PowerShell CPU load."""
+    global _cached_specs
+    if _cached_specs is not None:
+        system_drive = os.getenv("SystemDrive", "C:")
+        try:
+            disk = psutil.disk_usage(system_drive)
+            _cached_specs["disk_c_free_gb"] = round(disk.free / (1024 ** 3), 1)
+        except Exception:
+            pass
+        return _cached_specs
+
     cpu_name = platform.processor()
     try:
         cmd = 'powershell.exe -NoProfile -Command "(Get-CimInstance Win32_Processor).Name"'
@@ -125,7 +137,7 @@ def get_system_specs() -> dict:
         total_disk_gb = 0
         free_disk_gb = 0
 
-    return {
+    _cached_specs = {
         "os": f"{platform.system()} {platform.release()} ({platform.architecture()[0]})",
         "cpu": cpu_name,
         "gpu": gpu_name,
@@ -133,6 +145,7 @@ def get_system_specs() -> dict:
         "disk_c_total_gb": total_disk_gb,
         "disk_c_free_gb": free_disk_gb,
     }
+    return _cached_specs
 
 def get_realtime_metrics(active_game: dict = None) -> dict:
     """Returns live metrics (CPU %, RAM %, Disk %, CPU Temp, GPU Temp, FPS)."""

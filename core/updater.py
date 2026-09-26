@@ -4,7 +4,7 @@ import ssl
 
 CURRENT_VERSION = "2.0 Pro"
 CURRENT_VERSION_NUM = "2.0.0"
-GITHUB_REPO = "winoptimizer/winoptimizer"
+GITHUB_REPO = "fabiangolec84-svg/WinOptimizer"
 
 def check_for_updates() -> dict:
     """
@@ -21,6 +21,9 @@ def check_for_updates() -> dict:
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
+    from core.legal_manager import LegalManager
+    lang = LegalManager().get_language()
+
     try:
         with urllib.request.urlopen(req, timeout=4, context=ctx) as response:
             if response.status == 200:
@@ -30,41 +33,41 @@ def check_for_updates() -> dict:
                 body = data.get("body", "")
 
                 is_newer = _is_newer_version(tag_name, CURRENT_VERSION_NUM)
-                if is_newer:
-                    return {
-                        "success": True,
-                        "is_latest": False,
-                        "current_version": CURRENT_VERSION,
-                        "latest_version": f"v{tag_name}",
-                        "download_url": html_url,
-                        "notes": body[:200] if body else "",
-                        "message_pl": f"Dostępna jest nowa wersja: v{tag_name}!",
-                        "message_en": f"A new version is available: v{tag_name}!"
-                    }
-                else:
-                    return {
-                        "success": True,
-                        "is_latest": True,
-                        "current_version": CURRENT_VERSION,
-                        "latest_version": CURRENT_VERSION,
-                        "download_url": html_url,
-                        "notes": "",
-                        "message_pl": f"Używasz najnowszej wersji WinOptimizer ({CURRENT_VERSION}).",
-                        "message_en": f"You are using the latest version of WinOptimizer ({CURRENT_VERSION})."
-                    }
+                msg_pl = f"Dostępna jest nowa wersja: v{tag_name}!" if is_newer else f"Używasz najnowszej wersji ({CURRENT_VERSION})."
+                msg_en = f"A new version is available: v{tag_name}!" if is_newer else f"You are using the latest version ({CURRENT_VERSION})."
+                msg = msg_en if lang == 'en' else msg_pl
+
+                return {
+                    "success": True,
+                    "has_update": is_newer,
+                    "is_latest": not is_newer,
+                    "current_version": CURRENT_VERSION,
+                    "latest_version": f"v{tag_name}",
+                    "download_url": html_url,
+                    "notes": body[:200] if body else "",
+                    "message": msg,
+                    "message_pl": msg_pl,
+                    "message_en": msg_en
+                }
     except Exception:
-        # Fallback for offline / unreleased repo
+        # Fallback for offline / network errors
         pass
+
+    msg_pl = f"Używasz najnowszej wersji ({CURRENT_VERSION})."
+    msg_en = f"You are using the latest version ({CURRENT_VERSION})."
+    msg = msg_en if lang == 'en' else msg_pl
 
     return {
         "success": True,
+        "has_update": False,
         "is_latest": True,
         "current_version": CURRENT_VERSION,
         "latest_version": CURRENT_VERSION,
         "download_url": f"https://github.com/{GITHUB_REPO}/releases",
         "notes": "",
-        "message_pl": f"Używasz najnowszej wersji WinOptimizer ({CURRENT_VERSION}).",
-        "message_en": f"You are using the latest version of WinOptimizer ({CURRENT_VERSION})."
+        "message": msg,
+        "message_pl": msg_pl,
+        "message_en": msg_en
     }
 
 def _is_newer_version(remote: str, current: str) -> bool:

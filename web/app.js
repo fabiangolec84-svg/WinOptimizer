@@ -66,6 +66,44 @@ const TRANSLATIONS = {
       updates_heading: "Aktualizacje programu",
       updates_sub: "Automatyczne sprawdzanie nowych wydań, ulepszeń wydajności i bazy procesów gier.",
       btn_check: "Sprawdź dostępność aktualizacji"
+    },
+    cleaner: {
+      header: "🧹 Czyszczenie Pamięci Podręcznej & Dysku",
+      sub: "Usuń zbędne pliki tymczasowe, pamięć podręczną shaderów GPU oraz cache przeglądarek.",
+      rescan: "Skanuj ponownie",
+      clean: "WYCZYŚĆ ZAZNACZONE",
+      selected: "Zaznaczono:"
+    },
+    gaming: {
+      header: "⚡ Tweaki Gaming & System",
+      sub: "Optymalizacje rejestru, planu zasilania i kolejkowania sieciowego pod kątem minimalnego input laga.",
+      enable_all: "Włącz zalecane",
+      restore_all: "Przywróć domyślne",
+      flush_dns: "Wyczyść cache DNS"
+    },
+    profiles: {
+      header: "🎯 Profile Gier & Esport",
+      sub: "Gotowe argumenty startowe, optymalizacje silników i czyszczenie pamięci podręcznej dla popularnych gier."
+    },
+    privacy: {
+      header: "🛡️ Debloat & Prywatność Windows",
+      sub: "Wyłącz telemetrię, raportowanie błędów do Microsoftu i sponsorowane rekomendacje w menu Start.",
+      disable_all: "Wyłącz telemetrię i śledzenie"
+    },
+    startup: {
+      header: "⚡ Programy Autostartu",
+      sub: "Zarządzaj aplikacjami startującymi z systemem. Wyłącz zbędne programy, żeby Windows bootował szybciej.",
+      disable_all: "Wyłącz zbędne programy",
+      refresh: "Odśwież listę"
+    },
+    storage: {
+      header: "📦 Łowca Plików & Programy",
+      sub: "Skanuj dyski w poszukiwaniu wielkich, zapomnianych plików i zarządzaj zainstalowanymi programami.",
+      pill_hunter: "🔍 Łowca Dużych Plików",
+      pill_apps: "🗑️ Odinstalowywanie Programów",
+      start_scan: "ROZPOCZNIJ SKAN",
+      select_all: "Zaznacz wszystkie",
+      delete_selected: "Usuń zaznaczone"
     }
   },
   en: {
@@ -112,6 +150,44 @@ const TRANSLATIONS = {
       updates_heading: "Software Updates",
       updates_sub: "Automatic checks for new releases, performance tweaks, and gaming definitions.",
       btn_check: "Check for updates"
+    },
+    cleaner: {
+      header: "🧹 System Cache & Disk Cleaner",
+      sub: "Remove junk files, GPU shader caches, and web browser temporary data.",
+      rescan: "Rescan",
+      clean: "CLEAN SELECTED",
+      selected: "Selected:"
+    },
+    gaming: {
+      header: "⚡ Gaming & System Tweaks",
+      sub: "Registry, power plan, and network queueing optimizations for ultra-low input lag.",
+      enable_all: "Enable Recommended",
+      restore_all: "Restore Defaults",
+      flush_dns: "Flush DNS Cache"
+    },
+    profiles: {
+      header: "🎯 Game Profiles & Esports",
+      sub: "Optimal launch arguments, engine flags, and cache purges for popular competitive games."
+    },
+    privacy: {
+      header: "🛡️ Debloat & Windows Privacy",
+      sub: "Disable telemetry, background diagnostic reporting, and Start menu promotional suggestions.",
+      disable_all: "Disable Telemetry & Tracking"
+    },
+    startup: {
+      header: "⚡ Startup Applications",
+      sub: "Manage applications that boot with Windows. Disable unnecessary items to accelerate boot time.",
+      disable_all: "Disable Unnecessary",
+      refresh: "Refresh List"
+    },
+    storage: {
+      header: "📦 Large File Hunter & Apps",
+      sub: "Scan drives for forgotten space-consuming files and manage installed applications.",
+      pill_hunter: "🔍 Large File Hunter",
+      pill_apps: "🗑️ App Uninstaller",
+      start_scan: "START SCAN",
+      select_all: "Select All",
+      delete_selected: "Delete Selected"
     }
   }
 };
@@ -199,6 +275,70 @@ function applyTranslations(lang) {
 
   const updBtn = document.getElementById('txt-check-updates-btn');
   if (updBtn) updBtn.innerText = t.settings.btn_check;
+
+  // Cleaner
+  const cleanHeader = document.querySelector('#tab-cleaner .view-header h2');
+  if (cleanHeader) cleanHeader.innerText = t.cleaner.header;
+  const cleanSub = document.querySelector('#tab-cleaner .view-header p');
+  if (cleanSub) cleanSub.innerText = t.cleaner.sub;
+  const cleanRescan = document.getElementById('btn-scan-cleaner');
+  if (cleanRescan) cleanRescan.innerText = t.cleaner.rescan;
+  const cleanExec = document.getElementById('btn-execute-clean');
+  if (cleanExec) cleanExec.innerText = t.cleaner.clean;
+  const cleanSumLabel = document.querySelector('#tab-cleaner .sum-label');
+  if (cleanSumLabel) cleanSumLabel.innerText = t.cleaner.selected;
+
+  // Gaming
+  const gameHeader = document.querySelector('#tab-gaming .view-header h2');
+  if (gameHeader) gameHeader.innerText = t.gaming.header;
+  const gameSub = document.querySelector('#tab-gaming .view-header p');
+  if (gameSub) gameSub.innerText = t.gaming.sub;
+  const gameEnAll = document.getElementById('btn-gaming-enable-all');
+  if (gameEnAll) gameEnAll.innerText = t.gaming.enable_all;
+  const gameRestAll = document.getElementById('btn-gaming-restore-all');
+  if (gameRestAll) gameRestAll.innerText = t.gaming.restore_all;
+  const gameDns = document.getElementById('btn-flush-dns');
+  if (gameDns) gameDns.innerText = t.gaming.flush_dns;
+
+  // Profiles
+  const profHeader = document.querySelector('#tab-profiles .view-header h2');
+  if (profHeader) profHeader.innerText = t.profiles.header;
+  const profSub = document.querySelector('#tab-profiles .view-header p');
+  if (profSub) profSub.innerText = t.profiles.sub;
+
+  // Privacy
+  const privHeader = document.querySelector('#tab-privacy .view-header h2');
+  if (privHeader) privHeader.innerText = t.privacy.header;
+  const privSub = document.querySelector('#tab-privacy .view-header p');
+  if (privSub) privSub.innerText = t.privacy.sub;
+  const privDisAll = document.getElementById('btn-privacy-disable-all');
+  if (privDisAll) privDisAll.innerText = t.privacy.disable_all;
+
+  // Startup
+  const startHeader = document.querySelector('#tab-startup .view-header h2');
+  if (startHeader) startHeader.innerText = t.startup.header;
+  const startSub = document.querySelector('#tab-startup .view-header p');
+  if (startSub) startSub.innerText = t.startup.sub;
+  const startDisAll = document.getElementById('btn-startup-disable-all');
+  if (startDisAll) startDisAll.innerText = t.startup.disable_all;
+  const startRef = document.getElementById('btn-startup-refresh');
+  if (startRef) startRef.innerText = t.startup.refresh;
+
+  // Storage
+  const storHeader = document.querySelector('#tab-storage .view-header h2');
+  if (storHeader) storHeader.innerText = t.storage.header;
+  const storSub = document.querySelector('#tab-storage .view-header p');
+  if (storSub) storSub.innerText = t.storage.sub;
+  const storPillHunter = document.getElementById('pill-file-hunter');
+  if (storPillHunter) storPillHunter.innerText = t.storage.pill_hunter;
+  const storPillApps = document.getElementById('pill-app-uninstaller');
+  if (storPillApps) storPillApps.innerText = t.storage.pill_apps;
+  const storStart = document.querySelector('#btn-start-storage-scan span');
+  if (storStart) storStart.innerText = t.storage.start_scan;
+  const storSelAll = document.getElementById('btn-storage-select-all');
+  if (storSelAll) storSelAll.innerText = t.storage.select_all;
+  const storDelSel = document.getElementById('btn-storage-delete-selected');
+  if (storDelSel) storDelSel.innerText = t.storage.delete_selected;
 }
 
 async function setLanguage(lang, persist = true) {
@@ -1047,7 +1187,19 @@ async function loadProfilesTab() {
     `;
 
     card.querySelector('.btn-apply-profile').addEventListener('click', () => {
-      showToast(`Zastosowano profil: ${prof.name}`, 'success', '🎯');
+      if (args && args !== 'Standard') {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(args).then(() => {
+            showToast(`Skopiowano parametry startowe ${prof.name} do schowka! Wklej je we właściwościach gry.`, 'success', '📋');
+          }).catch(() => {
+            showToast(`Zastosowano profil: ${prof.name}`, 'success', '🎯');
+          });
+        } else {
+          showToast(`Zastosowano profil: ${prof.name}`, 'success', '🎯');
+        }
+      } else {
+        showToast(`Zastosowano profil: ${prof.name}`, 'success', '🎯');
+      }
     });
 
     if (isFiveM) {

@@ -370,19 +370,34 @@ class ApiBridge:
         return auto_boost_daemon.get_state()
 
     def toggle_auto_boost(self, enabled):
-        auto_boost_daemon.set_enabled(bool(enabled))
-        self.legal_mgr.set_auto_boost(bool(enabled))
-        return {"success": True, "enabled": bool(enabled)}
+        en = bool(enabled)
+        auto_boost_daemon.set_enabled(en)
+        self.legal_mgr.set_auto_boost(en)
+        lang = self.legal_mgr.get_language()
+        if lang == 'en':
+            msg = "Background Auto-Boost is now ACTIVE." if en else "Background Auto-Boost is now DISABLED."
+        else:
+            msg = "Włączono automatyczną optymalizację gier w tle." if en else "Wyłączono optymalizację w tle."
+        return {"success": True, "enabled": en, "message": msg}
 
     # Auto-Updater
+    def check_for_updates(self):
+        return check_for_updates()
+
     def check_updates(self):
         return check_for_updates()
 
     # Language (i18n)
+    def get_current_language(self):
+        return self.legal_mgr.get_language()
+
     def get_language(self):
         return self.legal_mgr.get_language()
 
-    def set_language(self, lang):
+    def set_system_language(self, lang):
         chosen = self.legal_mgr.set_language(str(lang))
         return {"success": True, "language": chosen}
+
+    def set_language(self, lang):
+        return self.set_system_language(lang)
 

@@ -188,7 +188,7 @@ def is_game_priority_boosted() -> bool:
     return val == 8
 
 def set_game_priority_boosted(enabled: bool) -> tuple[bool, str]:
-    gpu_p = 8 if enabled else 8  # default is often 8 or 2
+    gpu_p = 8 if enabled else 2
     pri = 6 if enabled else 2
     sched = "High" if enabled else "Medium"
     sfio = "High" if enabled else "Normal"
