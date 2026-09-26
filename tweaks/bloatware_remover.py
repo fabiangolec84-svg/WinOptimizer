@@ -45,6 +45,46 @@ BLOATWARE_LIST = [
         "id": "Clipchamp.Clipchamp",
         "name": "Clipchamp Video Editor",
         "desc": "Edytor wideo instalowany domyślnie w nowszych wersjach Windows."
+    },
+    {
+        "id": "Microsoft.ZuneMusic",
+        "name": "Media Player / Groove Music",
+        "desc": "Odtwarzacz muzyczny z procesami w tle."
+    },
+    {
+        "id": "Microsoft.ZuneVideo",
+        "name": "Filmy i TV (Movies & TV)",
+        "desc": "Domyślny odtwarzacz wideo Windows."
+    },
+    {
+        "id": "Microsoft.WindowsMaps",
+        "name": "Mapy Windows",
+        "desc": "Usługa map i geolokalizacji offline."
+    },
+    {
+        "id": "Microsoft.YourPhone",
+        "name": "Łącze z telefonem (Phone Link)",
+        "desc": "Aplikacja synchronizująca smartfon w tle."
+    },
+    {
+        "id": "Microsoft.Windows.PeopleExperienceHost",
+        "name": "Kontakty Windows (People)",
+        "desc": "Wbudowany pasek kontaktów na pasku zadań."
+    },
+    {
+        "id": "Microsoft.549981C3F5F10",
+        "name": "Cortana",
+        "desc": "Asystent głosowy Microsoftu."
+    },
+    {
+        "id": "Microsoft.XboxGamingOverlay",
+        "name": "Xbox Game Bar Overlay",
+        "desc": "Nakładka Xbox często powodująca spadek FPS."
+    },
+    {
+        "id": "Microsoft.Todos",
+        "name": "Microsoft To Do",
+        "desc": "Aplikacja zadań Microsoftu."
     }
 ]
 

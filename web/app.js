@@ -979,7 +979,7 @@ function renderStorageFiles() {
       <td><strong>${f.name}</strong></td>
       <td><span class="badge active">${f.category}</span></td>
       <td><span style="font-family: var(--font-mono); color: var(--accent-cyan);">${f.size_str}</span></td>
-      <td style="color: var(--text-muted);">${f.accessed_days_ago} dni temu</td>
+      <td style="color: var(--text-muted);">${f.age_str || (f.accessed_days_ago !== undefined ? f.accessed_days_ago + ' dni temu' : '-')}</td>
       <td style="color: var(--text-dim); max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${f.path}">${f.path}</td>
       <td style="text-align: right;">
         <button class="btn-glass btn-sm btn-open-folder" data-path="${f.path}" title="Pokaż w folderze">📂</button>
@@ -1069,7 +1069,8 @@ function renderAppsTable(apps) {
       const api = getApi();
       if (api) {
         showToast(`Uruchamianie deinstalatora: ${app.name}...`, 'info', '🗑️');
-        const res = await api.uninstall_application(app.uninstall_string);
+        const cmd = app.uninstall_string || app.uninstall_cmd;
+        const res = await api.uninstall_application(cmd);
         showToast(res.message, res.success ? 'info' : 'warning', 'ℹ️');
       }
     });
@@ -1406,10 +1407,19 @@ async function loadSettingsTab(defaultSubtab = 'specs') {
     const docs = await api.get_legal_documents();
     if (docs) {
       state.legalTexts = docs;
-      document.getElementById('text-privacy-policy').innerText = docs.privacy_policy || '';
-      document.getElementById('text-eula').innerText = docs.eula || '';
-      document.getElementById('text-licenses').innerText = docs.licenses || '';
-      document.getElementById('text-faq').innerText = docs.smartscreen_faq || '';
+      const fmt = (raw) => {
+        if (!raw) return '';
+        return raw
+          .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+          .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+          .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+          .replace(/^\- (.*$)/gim, '• $1')
+          .trim();
+      };
+      document.getElementById('text-privacy-policy').innerHTML = fmt(docs.privacy_policy);
+      document.getElementById('text-eula').innerHTML = fmt(docs.eula);
+      document.getElementById('text-licenses').innerHTML = fmt(docs.licenses);
+      document.getElementById('text-faq').innerHTML = fmt(docs.smartscreen_faq);
     }
   }
 }

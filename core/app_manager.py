@@ -139,6 +139,7 @@ def get_installed_applications() -> list[dict]:
                                 "install_date": date_display,
                                 "days_ago": days_ago,
                                 "uninstall_cmd": quiet_str or uninstall_str,
+                                "uninstall_string": quiet_str or uninstall_str,
                                 "location": install_loc,
                                 "hive": hive_label
                             })

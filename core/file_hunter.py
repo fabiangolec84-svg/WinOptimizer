@@ -59,6 +59,59 @@ def format_age(mtime: float) -> tuple[str, float]:
         y = round(days_old / 365, 1)
         return f"{y} lat temu", days_old
 
+def resolve_scan_targets(target_dir: str) -> list[str]:
+    user_prof = os.environ.get("USERPROFILE", "C:\\Users\\Default")
+    t_upper = str(target_dir).strip().upper()
+
+    if t_upper in ("DOWNLOADS", "DOWNLOAD"):
+        p = os.path.join(user_prof, "Downloads")
+        return [p] if os.path.exists(p) else [user_prof]
+    elif t_upper in ("USER", "USERPROFILE"):
+        return [user_prof] if os.path.exists(user_prof) else ["C:\\Users"]
+    elif t_upper in ("GAMES", "GAME"):
+        game_candidates = [
+            r"C:\Program Files (x86)\Steam\steamapps\common",
+            r"C:\Program Files\Epic Games",
+            r"C:\Riot Games",
+            r"D:\SteamLibrary\steamapps\common",
+            r"D:\Games",
+            r"E:\SteamLibrary\steamapps\common",
+            r"E:\Games",
+            r"C:\Games"
+        ]
+        found = [p for p in game_candidates if os.path.exists(p)]
+        return found if found else [user_prof]
+    elif t_upper in ("ALL", "ALL_DRIVES", "DRIVES"):
+        roots = []
+        try:
+            for part in psutil.disk_partitions(all=False):
+                if "cdrom" in part.opts or not part.device:
+                    continue
+                mount = part.mountpoint
+                if os.path.exists(mount):
+                    roots.append(mount)
+        except Exception:
+            roots = ["C:\\"]
+        return roots if roots else ["C:\\"]
+    else:
+        if os.path.exists(target_dir):
+            return [target_dir]
+        return [user_prof]
+
+def matches_category(cat: str, category_filter: str) -> bool:
+    filt = str(category_filter).strip().lower()
+    if not filt or filt in ("all", "wszystkie", "all types", "any"):
+        return True
+    if filt in ("installers", "instalatory", "instalator"):
+        return cat in ("Instalator", "Obraz dysku")
+    if filt in ("archives", "archiwa", "archiwum"):
+        return cat == "Archiwum"
+    if filt in ("videos", "wideo", "media", "wideo / media"):
+        return cat == "Wideo / Media"
+    if filt in ("documents", "dokumenty", "dokument"):
+        return cat == "Dokument"
+    return cat.lower() == filt
+
 def get_scan_locations() -> list[dict]:
     """Returns list of scan locations including user profile, drives, and special folders."""
     user_prof = os.environ.get("USERPROFILE", "C:\\Users\\Default")
@@ -101,76 +154,79 @@ def scan_all_large_files(target_dir: str,
     Scans target directory recursively for files matching the minimum size threshold and age.
     Results are strictly sorted from largest to smallest!
     """
-    if not os.path.exists(target_dir):
-        return []
-
+    scan_roots = resolve_scan_targets(target_dir)
     min_bytes = int(min_size_mb * 1024 * 1024)
     results = []
     scanned_folders = 0
     scanned_files = 0
 
     try:
-        for root, dirs, files in os.walk(target_dir, topdown=True):
-            if stop_event and stop_event.is_set():
-                break
+        for s_root in scan_roots:
+            if not os.path.exists(s_root):
+                continue
+            for root, dirs, files in os.walk(s_root, topdown=True):
+                if stop_event and stop_event.is_set():
+                    break
 
-            # Filter out inaccessible / junction / system dirs
-            root_lower = root.lower()
-            dirs[:] = [
-                d for d in dirs
-                if not d.startswith("$")
-                and d.lower() not in ("system volume information", "windows.old", "recovery")
-                and not os.path.islink(os.path.join(root, d))
-            ]
+                # Filter out inaccessible / junction / system dirs
+                root_lower = root.lower()
+                dirs[:] = [
+                    d for d in dirs
+                    if not d.startswith("$")
+                    and not d.startswith(".")
+                    and d.lower() not in ("system volume information", "windows.old", "recovery", "windows", "appdata", "node_modules", "package cache")
+                    and not os.path.islink(os.path.join(root, d))
+                ]
 
-            scanned_folders += 1
-            if progress_cb and scanned_folders % 25 == 0:
-                progress_cb(scanned_folders, scanned_files, len(results), root)
+                scanned_folders += 1
+                if progress_cb and scanned_folders % 25 == 0:
+                    progress_cb(scanned_folders, scanned_files, len(results), root)
 
-            for f in files:
-                scanned_files += 1
-                fp = os.path.join(root, f)
-                try:
-                    # Skip symlinks
-                    if os.path.islink(fp):
+                for f in files:
+                    scanned_files += 1
+                    fp = os.path.join(root, f)
+                    try:
+                        # Skip symlinks
+                        if os.path.islink(fp):
+                            continue
+
+                        st = os.stat(fp)
+                        size = st.st_size
+
+                        # Size Filter (threshold)
+                        if size < min_bytes:
+                            continue
+
+                        mtime = st.st_mtime
+                        age_str, days_old = format_age(mtime)
+
+                        # Age Filter (min_days_old)
+                        if days_old < min_days_old:
+                            continue
+
+                        ext = os.path.splitext(f)[1]
+                        cat = get_category_for_ext(ext)
+
+                        # Category Filter
+                        if not matches_category(cat, category_filter):
+                            continue
+
+                        mod_date = datetime.datetime.fromtimestamp(mtime).strftime("%d.%m.%Y %H:%M")
+
+                        results.append({
+                            "name": f,
+                            "path": fp,
+                            "dir": root,
+                            "size": size,
+                            "size_str": format_bytes(size),
+                            "category": cat,
+                            "age_str": age_str,
+                            "mod_date": mod_date,
+                            "days_old": days_old,
+                            "accessed_days_ago": max(0, int(days_old))
+                        })
+                    except (PermissionError, OSError):
                         continue
-
-                    st = os.stat(fp)
-                    size = st.st_size
-
-                    # Size Filter (threshold)
-                    if size < min_bytes:
-                        continue
-
-                    mtime = st.st_mtime
-                    age_str, days_old = format_age(mtime)
-
-                    # Age Filter (min_days_old)
-                    if days_old < min_days_old:
-                        continue
-
-                    ext = os.path.splitext(f)[1]
-                    cat = get_category_for_ext(ext)
-
-                    # Category Filter
-                    if category_filter != "Wszystkie" and cat != category_filter:
-                        continue
-
-                    mod_date = datetime.datetime.fromtimestamp(mtime).strftime("%d.%m.%Y %H:%M")
-
-                    results.append({
-                        "name": f,
-                        "path": fp,
-                        "dir": root,
-                        "size": size,
-                        "size_str": format_bytes(size),
-                        "category": cat,
-                        "age_str": age_str,
-                        "mod_date": mod_date,
-                        "days_old": days_old
-                    })
-                except (PermissionError, OSError):
-                    continue
     except Exception as e:
         print(f"Error during scan: {e}")
 
