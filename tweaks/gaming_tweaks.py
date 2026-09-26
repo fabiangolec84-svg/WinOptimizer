@@ -66,29 +66,53 @@ def set_network_throttling_disabled(disabled: bool) -> tuple[bool, str]:
 # 5. Power Plan (Ultimate vs Balanced)
 def is_ultimate_power_plan_active() -> bool:
     try:
-        out = subprocess.check_output("powercfg /getactivescheme", text=True, shell=True)
-        return "ultimate" in out.lower() or "najwyższa" in out.lower() or "high performance" in out.lower()
+        raw = subprocess.check_output("powercfg /getactivescheme", shell=True)
+        out = raw.decode("cp852", errors="replace").lower()
+        return "ultimate" in out or "najwy" in out or "wysoka" in out or "high performance" in out or "8c5e7fda" in out
     except Exception:
         return False
 
 def set_power_plan(ultimate: bool) -> tuple[bool, str]:
+    from core.legal_manager import LegalManager
+    lang = LegalManager().get_language()
     try:
         if ultimate:
-            # Duplicate and set Ultimate Performance
-            out = subprocess.run("powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61", capture_output=True, text=True, shell=True)
-            guid = "e9a42b02-d5df-448d-aa00-03f14749eb61"
-            if out.stdout and "GUID" in out.stdout:
-                parts = out.stdout.split()
-                for p in parts:
-                    if len(p) == 36 and "-" in p:
-                        guid = p
+            # 1. Search for existing Ultimate / High Performance scheme to avoid duplicates
+            raw_list = subprocess.check_output("powercfg /list", shell=True)
+            text_list = raw_list.decode("cp852", errors="replace")
+            guid = None
+            for line in text_list.splitlines():
+                l_low = line.lower()
+                if "najwy" in l_low or "ultimate" in l_low:
+                    parts = line.split()
+                    for p in parts:
+                        if len(p) == 36 and "-" in p:
+                            guid = p
+                            break
+                    if guid:
                         break
+
+            # 2. If not found, attempt to duplicate Ultimate Performance
+            if not guid:
+                dup_out = subprocess.run("powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61", capture_output=True, text=True, shell=True)
+                if dup_out.stdout and "GUID" in dup_out.stdout:
+                    for p in dup_out.stdout.split():
+                        if len(p) == 36 and "-" in p:
+                            guid = p
+                            break
+
+            # 3. Fallback to standard High Performance (exists on all Windows editions)
+            if not guid:
+                guid = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
+
             subprocess.run(f"powercfg /setactive {guid}", shell=True, check=True)
-            return True, "Aktywowano plan zasilania 'Najwyższa wydajność' (Ultimate Performance)."
+            msg = "Activated 'Ultimate Performance' power plan." if lang == 'en' else "Aktywowano plan zasilania 'Najwyższa wydajność' (Ultimate Performance)."
+            return True, msg
         else:
             # Revert to standard Balanced plan (381b4222-f694-41f0-9685-ff5bb260df2e)
             subprocess.run("powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e", shell=True, check=True)
-            return True, "Przywrócono plan zasilania 'Zrównoważony' (Balanced)."
+            msg = "Restored default 'Balanced' power plan." if lang == 'en' else "Przywrócono plan zasilania 'Zrównoważony' (Balanced)."
+            return True, msg
     except Exception as e:
         return False, f"Błąd zmiany planu zasilania: {e}"
 

@@ -240,7 +240,7 @@ def open_in_explorer(file_path: str):
         return False
     try:
         norm_path = os.path.normpath(file_path)
-        subprocess.Popen(f'explorer.exe /select,"{norm_path}"', shell=True)
+        subprocess.Popen(['explorer.exe', f'/select,{norm_path}'])
         return True
     except Exception as e:
         print(f"Error opening explorer: {e}")

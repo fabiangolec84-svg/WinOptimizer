@@ -163,8 +163,17 @@ def get_system_specs() -> dict:
         total_disk_gb = 0
         free_disk_gb = 0
 
+    os_name = f"{platform.system()} {platform.release()} ({platform.architecture()[0]})"
+    try:
+        cmd = 'powershell.exe -NoProfile -Command "(Get-CimInstance Win32_OperatingSystem).Caption"'
+        out = subprocess.check_output(cmd, text=True, shell=True, timeout=5).strip()
+        if out:
+            os_name = f"{out} ({platform.architecture()[0]})"
+    except Exception:
+        pass
+
     _cached_specs = {
-        "os": f"{platform.system()} {platform.release()} ({platform.architecture()[0]})",
+        "os": os_name,
         "cpu": cpu_name,
         "gpu": gpu_name,
         "ram_total_gb": total_ram_gb,

@@ -143,6 +143,7 @@ class AutoBoostDaemon:
                     "game": game_title,
                     "pid": pid,
                     "freed_mb": freed_mb,
+                    "message": f"Wykryto grę: {game_title}. Zastosowano Auto-Boost (Wysoki priorytet CPU + zwolniono {freed_mb} MB RAM)!",
                     "message_pl": f"Wykryto grę: {game_title}. Zastosowano Auto-Boost (Wysoki priorytet CPU + zwolniono {freed_mb} MB RAM)!",
                     "message_en": f"Game detected: {game_title}. Auto-Boost applied (High CPU Priority + freed {freed_mb} MB RAM)!"
                 }

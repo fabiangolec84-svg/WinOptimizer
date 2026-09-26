@@ -21,8 +21,20 @@ test_summary = {
 }
 
 def automated_tester(window):
-    time.sleep(2.5)  # Wait for DOM and pywebview to initialize
-    print("[TEST] Starting automated UI click test...")
+    print("[TEST] Waiting for pywebview DOM and WebView2 initialization...")
+    ready = False
+    for attempt in range(40):
+        try:
+            res = window.evaluate_js("document.readyState")
+            if res in ("complete", "interactive"):
+                ready = True
+                break
+        except Exception:
+            pass
+        time.sleep(0.5)
+
+    time.sleep(1.0)
+    print("[TEST] WebView2 ready. Starting automated UI click test...")
 
     # Inject error tracking
     init_script = """
@@ -97,6 +109,25 @@ def automated_tester(window):
     })()
     """)
     time.sleep(1.0)
+
+    run_step("3b. Dashboard - 1-Click Game Boost Execution", """
+    (function() {
+        const btn = document.getElementById('btn-1click-boost');
+        if (btn) { btn.click(); return 'Triggered 1-Click Boost'; }
+        return 'Boost btn not found';
+    })()
+    """)
+    time.sleep(2.0)
+
+    run_step("3c. Toast - Verify Object Notification Formatting", """
+    (function() {
+        showToast({ message_pl: 'Test powiadomienia Auto-Boost', message_en: 'Auto-Boost Test Notification' }, 'success', '⚡');
+        const toasts = document.querySelectorAll('.toast-text');
+        const lastText = toasts[toasts.length - 1]?.innerText || '';
+        return { lastText, isCleanText: !lastText.includes('[object') };
+    })()
+    """)
+    time.sleep(0.5)
 
     run_step("4. Dashboard - Toggle Auto-Boost Switch", """
     (function() {
@@ -265,10 +296,11 @@ def automated_tester(window):
         elif tab_id == 'settings':
             run_step("Settings - Check Hardware Specs Display", """
             (function() {
+                const os = document.getElementById('spec-os').innerText;
                 const cpu = document.getElementById('spec-cpu').innerText;
                 const gpu = document.getElementById('spec-gpu').innerText;
                 const ram = document.getElementById('spec-ram').innerText;
-                return { cpu, gpu, ram };
+                return { os, cpu, gpu, ram };
             })()
             """)
             run_step("Settings - Test Language Switcher to EN", """

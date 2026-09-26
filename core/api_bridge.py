@@ -63,16 +63,17 @@ class ApiBridge:
             procs = get_top_processes(limit=6)
 
             # Add process trend and system flag
+            ram_tot = max(1.0, specs.get("ram_total_gb", 16.0))
             for p in procs:
                 pname = p["name"].lower()
                 p["is_system"] = pname in ("msmpeng.exe", "memcompression", "csrss.exe", "lsass.exe", "services.exe")
                 # Format memory percent of total RAM
-                mem_pct = round((p["memory_mb"] / (specs["ram_total_gb"] * 1024)) * 100, 1)
+                mem_pct = round((p["memory_mb"] / (ram_tot * 1024)) * 100, 1)
                 p["memory_str"] = f"{round(p['memory_mb'] / 1024, 1)} GB ({mem_pct}%)" if p["memory_mb"] >= 1024 else f"{p['memory_mb']} MB ({mem_pct}%)"
                 p["cpu_percent"] = round(p.get("cpu_percent", 0.5), 1)
 
             # CPU Details
-            cpu_count = psutil.cpu_count(logical=True)
+            cpu_count = psutil.cpu_count(logical=True) or 6
             phys_count = psutil.cpu_count(logical=False) or int(cpu_count / 2)
             try:
                 freq = round(psutil.cpu_freq().current / 1000, 2)
@@ -83,12 +84,16 @@ class ApiBridge:
             cpu_temp = m.get("cpu_temp", 42)
             gpu_temp = m.get("gpu_temp", 45)
             fps_val = m.get("fps", 144)
+            lang = self.legal_mgr.get_language()
+            is_optimal = m["cpu_percent"] < 75 and m["ram_percent"] < 80
+            sys_status = ("System running optimally" if lang == "en" else "System działa optymalnie") if is_optimal else ("Optimization recommended" if lang == "en" else "Wymaga optymalizacji")
 
             return {
+                "os": specs.get("os", "Microsoft Windows 11 Pro 64-bit"),
                 "cpu": {
                     "percent": m["cpu_percent"],
                     "freq_ghz": f"{freq:.2f} GHz",
-                    "cores_info": f"{phys_count} rdzeni / {cpu_count} wątków",
+                    "cores_info": f"{phys_count} cores / {cpu_count} threads" if lang == 'en' else f"{phys_count} rdzeni / {cpu_count} wątków",
                     "name": specs["cpu"],
                     "temp": cpu_temp
                 },
@@ -97,13 +102,13 @@ class ApiBridge:
                     "used_gb": m["ram_used_gb"],
                     "free_gb": m["ram_free_gb"],
                     "total_gb": specs["ram_total_gb"],
-                    "info": f"{m['ram_used_gb']} GB używane / {m['ram_free_gb']} GB wolne"
+                    "info": f"{m['ram_used_gb']} GB used / {m['ram_free_gb']} GB free" if lang == 'en' else f"{m['ram_used_gb']} GB używane / {m['ram_free_gb']} GB wolne"
                 },
                 "disk": {
                     "percent": m["disk_c_percent"],
                     "free_gb": m["disk_c_free_gb"],
                     "total_gb": specs["disk_c_total_gb"],
-                    "info": f"{m['disk_c_free_gb']} GB wolne / {specs['disk_c_total_gb']} GB"
+                    "info": f"{m['disk_c_free_gb']} GB free / {specs['disk_c_total_gb']} GB" if lang == 'en' else f"{m['disk_c_free_gb']} GB wolne / {specs['disk_c_total_gb']} GB"
                 },
                 "gpu": {
                     "name": specs["gpu"],
@@ -111,7 +116,7 @@ class ApiBridge:
                 },
                 "fps": fps_val,
                 "processes": procs,
-                "system_status": "System działa optymalnie" if m["cpu_percent"] < 75 and m["ram_percent"] < 80 else "Wymaga optymalizacji",
+                "system_status": sys_status,
                 "auto_boost": auto_state,
                 "notifications": auto_boost_daemon.pop_notifications()
             }
@@ -121,10 +126,11 @@ class ApiBridge:
 
     def clean_ram(self):
         before, after, freed = clean_ram()
+        lang = self.legal_mgr.get_language()
         if freed > 0:
-            msg = f"Zwolniono {freed} MB pamięci RAM."
+            msg = f"Freed {freed} MB of RAM." if lang == 'en' else f"Zwolniono {freed} MB pamięci RAM."
         else:
-            msg = "Pamięć RAM jest już optymalnie wyczyszczona."
+            msg = "RAM is already fully optimized." if lang == 'en' else "Pamięć RAM jest już optymalnie wyczyszczona."
         return {"freed_mb": freed, "message": msg}
 
     def run_1click_boost(self):
@@ -136,9 +142,14 @@ class ApiBridge:
         b, a, freed_ram = clean_ram()
         freed_bytes, _ = clean_targets(["user_temp", "shader_cache", "crash_dumps", "discord_cache", "spotify_cache"])
         freed_mb = int(freed_bytes / (1024 * 1024))
+        lang = self.legal_mgr.get_language()
+        if lang == 'en':
+            msg = f"Game Mode & Ultimate Performance activated. Freed {freed_ram} MB RAM and {freed_mb} MB disk space."
+        else:
+            msg = f"Aktywowano Tryb Gry i Najwyższą Wydajność. Zwolniono {freed_ram} MB RAM oraz {freed_mb} MB na dysku."
         return {
             "success": True,
-            "message": f"Aktywowano Tryb Gry i Najwyższą Wydajność. Zwolniono {freed_ram} MB RAM oraz {freed_mb} MB na dysku."
+            "message": msg
         }
 
     def kill_proc(self, pid):
@@ -147,7 +158,9 @@ class ApiBridge:
 
     def rollback_all_registry(self):
         succ, tot = restore_all_settings()
-        return {"success": True, "message": f"Przywrócono {succ} z {tot} wartości rejestru."}
+        lang = self.legal_mgr.get_language()
+        msg = f"Restored {succ} of {tot} registry settings." if lang == 'en' else f"Przywrócono {succ} z {tot} wartości rejestru."
+        return {"success": True, "message": msg}
 
     def create_restore_point_action(self):
         ok, msg = create_restore_point()
@@ -218,7 +231,9 @@ class ApiBridge:
                 t["setter"](True)
             except Exception:
                 pass
-        return {"success": True, "message": "Włączono wszystkie zalecane optymalizacje gamingowe."}
+        lang = self.legal_mgr.get_language()
+        msg = "Enabled all recommended gaming optimizations." if lang == 'en' else "Włączono wszystkie zalecane optymalizacje gamingowe."
+        return {"success": True, "message": msg}
 
     def restore_default_gaming(self):
         tweaks = get_gaming_tweaks_list()
@@ -227,7 +242,9 @@ class ApiBridge:
                 t["setter"](False)
             except Exception:
                 pass
-        return {"success": True, "message": "Przywrócono domyślne ustawienia systemowe."}
+        lang = self.legal_mgr.get_language()
+        msg = "Restored default system settings." if lang == 'en' else "Przywrócono domyślne ustawienia systemowe."
+        return {"success": True, "message": msg}
 
     def flush_dns_action(self):
         ok, msg = flush_dns()
@@ -270,7 +287,9 @@ class ApiBridge:
         set_bing_search_disabled(True)
         set_cortana_disabled(True)
         set_ads_suggestions_disabled(True)
-        return {"success": True, "message": "Wyłączono telemetrię i zbędne usługi Microsoftu w tle."}
+        lang = self.legal_mgr.get_language()
+        msg = "Disabled telemetry and unnecessary background Microsoft services." if lang == 'en' else "Wyłączono telemetrię i zbędne usługi Microsoftu w tle."
+        return {"success": True, "message": msg}
 
     # Startup Manager
     def get_startup_items(self):
@@ -404,4 +423,23 @@ class ApiBridge:
 
     def set_language(self, lang):
         return self.set_system_language(lang)
+
+    # Browser & System Clipboard Helpers
+    def open_browser(self, url):
+        import webbrowser
+        try:
+            webbrowser.open(url)
+            return {"success": True}
+        except Exception as e:
+            return {"success": False, "message": str(e)}
+
+    def copy_to_clipboard(self, text):
+        try:
+            # Escape double quotes for powershell script
+            escaped = str(text).replace('"', '`"')
+            cmd = f'powershell.exe -NoProfile -Command "Set-Clipboard -Value @\'\n{text}\n\'@"'
+            subprocess.run(cmd, shell=True, capture_output=True)
+            return {"success": True}
+        except Exception as e:
+            return {"success": False, "message": str(e)}
 

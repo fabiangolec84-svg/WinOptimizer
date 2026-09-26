@@ -415,11 +415,18 @@ function showToast(message, type = 'info', icon = '🚀') {
   const container = document.getElementById('toast-container');
   if (!container) return;
 
+  let text = message;
+  if (typeof message === 'object' && message !== null) {
+    text = state.lang === 'en'
+      ? (message.message_en || message.message_pl || message.message || JSON.stringify(message))
+      : (message.message_pl || message.message_en || message.message || JSON.stringify(message));
+  }
+
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `
     <span class="toast-icon">${icon}</span>
-    <span class="toast-text">${message}</span>
+    <span class="toast-text">${text}</span>
   `;
   container.appendChild(toast);
 
@@ -539,7 +546,15 @@ async function fetchTelemetry() {
     // Notifications from Auto-Boost daemon
     if (data.notifications && data.notifications.length > 0) {
       data.notifications.forEach(msg => {
-        showToast(msg, 'success', '⚡');
+        let text = msg;
+        if (typeof msg === 'object' && msg !== null) {
+          text = state.lang === 'en'
+            ? (msg.message_en || msg.message_pl || msg.message)
+            : (msg.message_pl || msg.message_en || msg.message);
+        }
+        if (text) {
+          showToast(text, 'success', '⚡');
+        }
       });
     }
 
@@ -729,8 +744,21 @@ document.getElementById('btn-check-updates')?.addEventListener('click', async ()
   try {
     const res = await api.check_for_updates();
     if (statusBox) {
-      statusBox.innerText = res.message;
-      statusBox.style.color = res.has_update ? '#38bdf8' : '#10b981';
+      if (res.has_update && res.download_url) {
+        statusBox.innerHTML = `
+          <span>${res.message}</span>
+          <button id="btn-download-update-now" class="btn-boost-primary btn-sm" style="margin-left: 8px; padding: 4px 10px; font-size: 11px;">
+            ${state.lang === 'en' ? 'Download v' + (res.latest_version || '') : 'Pobierz wydanie'}
+          </button>
+        `;
+        statusBox.style.color = '#38bdf8';
+        document.getElementById('btn-download-update-now')?.addEventListener('click', () => {
+          api.open_browser(res.download_url);
+        });
+      } else {
+        statusBox.innerText = res.message;
+        statusBox.style.color = '#10b981';
+      }
     }
     showToast(res.message, res.has_update ? 'info' : 'success', '🚀');
   } catch (err) {
@@ -1215,19 +1243,29 @@ async function loadProfilesTab() {
       <button class="btn-glass btn-sm btn-apply-profile">Zastosuj Profil</button>
     `;
 
-    card.querySelector('.btn-apply-profile').addEventListener('click', () => {
+    card.querySelector('.btn-apply-profile').addEventListener('click', async () => {
+      const api = getApi();
       if (args && args !== 'Standard') {
+        let copied = false;
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(args).then(() => {
-            showToast(`Skopiowano parametry startowe ${prof.name} do schowka! Wklej je we właściwościach gry.`, 'success', '📋');
-          }).catch(() => {
-            showToast(`Zastosowano profil: ${prof.name}`, 'success', '🎯');
-          });
-        } else {
-          showToast(`Zastosowano profil: ${prof.name}`, 'success', '🎯');
+          try {
+            await navigator.clipboard.writeText(args);
+            copied = true;
+          } catch (e) {}
         }
+        if (!copied && api && api.copy_to_clipboard) {
+          try {
+            const cr = await api.copy_to_clipboard(args);
+            copied = cr && cr.success;
+          } catch (e) {}
+        }
+        const msg = state.lang === 'en'
+          ? `Copied ${prof.name} launch options to clipboard! Paste them in game properties.`
+          : `Skopiowano parametry startowe ${prof.name} do schowka! Wklej je we właściwościach gry.`;
+        showToast(msg, 'success', '📋');
       } else {
-        showToast(`Zastosowano profil: ${prof.name}`, 'success', '🎯');
+        const msg = state.lang === 'en' ? `Applied profile: ${prof.name}` : `Zastosowano profil: ${prof.name}`;
+        showToast(msg, 'success', '🎯');
       }
     });
 
@@ -1424,10 +1462,11 @@ async function loadSettingsTab(defaultSubtab = 'specs') {
 
   // Load hardware specs
   const data = await api.get_dashboard_data();
-  if (data && data.cpu) {
-    document.getElementById('spec-cpu').innerText = data.cpu.name || '-';
-    document.getElementById('spec-gpu').innerText = (data.gpu && data.gpu.name) || '-';
-    document.getElementById('spec-ram').innerText = `${data.ram.total_gb} GB RAM`;
+  if (data) {
+    if (data.os) document.getElementById('spec-os').innerText = data.os;
+    if (data.cpu) document.getElementById('spec-cpu').innerText = data.cpu.name || '-';
+    if (data.gpu) document.getElementById('spec-gpu').innerText = (data.gpu && data.gpu.name) || '-';
+    if (data.ram) document.getElementById('spec-ram').innerText = `${data.ram.total_gb} GB RAM`;
   }
 
   // Load legal documents

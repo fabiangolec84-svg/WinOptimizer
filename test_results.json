@@ -1,0 +1,191 @@
+{
+  "passed": [
+    {
+      "step": "1. Check and dismiss Onboarding if present",
+      "result": "Onboarding already closed"
+    },
+    {
+      "step": "2. Dashboard - Verify Gauges & Values",
+      "result": {
+        "cpu": "15%",
+        "ram": "60%",
+        "disk": "65%"
+      }
+    },
+    {
+      "step": "2b. Dashboard - Test Metric Cards Click",
+      "result": {
+        "tabAfterCpu": "gaming"
+      }
+    },
+    {
+      "step": "3. Dashboard - Quick Clean RAM Button",
+      "result": "Clicked Clean RAM"
+    },
+    {
+      "step": "3b. Dashboard - 1-Click Game Boost Execution",
+      "result": "Triggered 1-Click Boost"
+    },
+    {
+      "step": "3c. Toast - Verify Object Notification Formatting",
+      "result": {
+        "lastText": "Test powiadomienia Auto-Boost",
+        "isCleanText": true
+      }
+    },
+    {
+      "step": "4. Dashboard - Toggle Auto-Boost Switch",
+      "result": "Toggled Auto-Boost to false"
+    },
+    {
+      "step": "5. Dashboard - Refresh Processes Button",
+      "result": "Clicked Refresh Procs"
+    },
+    {
+      "step": "Switch to Tab: Czyszczenie Dysku",
+      "result": "Switched to cleaner"
+    },
+    {
+      "step": "Cleaner - Check categories rendered",
+      "result": {
+        "card_count": 11,
+        "total_selected": "400 MB"
+      }
+    },
+    {
+      "step": "Cleaner - Click Rescan",
+      "result": "Clicked Rescan"
+    },
+    {
+      "step": "Switch to Tab: Pliki & Pamiec",
+      "result": "Switched to storage"
+    },
+    {
+      "step": "Storage - Test File Hunter Scan",
+      "result": "Clicked Start Storage Scan on USER"
+    },
+    {
+      "step": "Storage - Check File Hunter Results",
+      "result": {
+        "count": "1",
+        "total": "161.7 MB",
+        "rendered_rows": 1
+      }
+    },
+    {
+      "step": "Storage - Switch to App Uninstaller Subview",
+      "result": "Switched to App Uninstaller"
+    },
+    {
+      "step": "Storage - Check App Uninstaller List",
+      "result": {
+        "rendered_apps_count": 102
+      }
+    },
+    {
+      "step": "Storage - Filter Apps by search input",
+      "result": {
+        "filtered_count": 6
+      }
+    },
+    {
+      "step": "Switch to Tab: Gaming & FPS",
+      "result": "Switched to gaming"
+    },
+    {
+      "step": "Gaming - Check tweaks count",
+      "result": {
+        "tweaks_count": 11
+      }
+    },
+    {
+      "step": "Gaming - Flush DNS Cache Button",
+      "result": "Clicked Flush DNS"
+    },
+    {
+      "step": "Switch to Tab: Profile Gier",
+      "result": "Switched to profiles"
+    },
+    {
+      "step": "Profiles - Check game profile cards",
+      "result": {
+        "profiles_count": 6
+      }
+    },
+    {
+      "step": "Profiles - Click Apply Profile on First Game",
+      "result": "Clicked Apply Profile"
+    },
+    {
+      "step": "Switch to Tab: Debloat & Prywatnosc",
+      "result": "Switched to privacy"
+    },
+    {
+      "step": "Privacy - Check privacy tweaks count",
+      "result": {
+        "privacy_tweaks_count": 4
+      }
+    },
+    {
+      "step": "Switch to Tab: Autostart",
+      "result": "Switched to startup"
+    },
+    {
+      "step": "Startup - Check startup items",
+      "result": {
+        "startup_items_count": 22
+      }
+    },
+    {
+      "step": "Switch to Tab: Aplikacje Systemowe",
+      "result": "Switched to bloatware"
+    },
+    {
+      "step": "Bloatware - Check bloatware list",
+      "result": {
+        "bloatware_items_count": 3
+      }
+    },
+    {
+      "step": "Switch to Tab: Ustawienia & Prawo",
+      "result": "Switched to settings"
+    },
+    {
+      "step": "Settings - Check Hardware Specs Display",
+      "result": {
+        "os": "Microsoft Windows 11 Pro (64bit)",
+        "cpu": "AMD Ryzen 5 5600 6-Core Processor",
+        "gpu": "NVIDIA GeForce RTX 3060",
+        "ram": "15.9 GB RAM"
+      }
+    },
+    {
+      "step": "Settings - Test Language Switcher to EN",
+      "result": {
+        "new_title": "Real-time hardware monitoring, RAM standby purge, and ultra-low gaming latency."
+      }
+    },
+    {
+      "step": "Settings - Test Language Switcher back to PL",
+      "result": {
+        "restored_title": "Monitoruj podzespoły w czasie rzeczywistym, zwalniaj pamięć RAM i redukuj opóźnienia w grach."
+      }
+    },
+    {
+      "step": "Settings - Check Sub-pills (EULA, Privacy, Licenses, FAQ)",
+      "result": {
+        "privLen": 2243,
+        "eulaLen": 1975,
+        "licLen": 1074,
+        "faqLen": 1032
+      }
+    },
+    {
+      "step": "Settings - Click Check for Updates Button",
+      "result": "Clicked Check Updates"
+    }
+  ],
+  "failed": [],
+  "js_errors": [],
+  "console_logs": []
+}

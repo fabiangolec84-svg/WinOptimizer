@@ -87,7 +87,7 @@ def get_installed_applications() -> list[dict]:
                                 continue
 
                             # Skip Windows system updates / hotfixes
-                            if get_val("SystemComponent") == 1 or get_val("ParentKeyName"):
+                            if str(get_val("SystemComponent")) == "1" or get_val("ParentKeyName"):
                                 continue
 
                             name = str(display_name).strip()
