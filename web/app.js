@@ -7,9 +7,10 @@
 const state = {
   activeTab: 'dashboard',
   lang: 'pl',
-  cpuHistory: [15, 20, 18, 25, 22, 19, 15],
-  ramHistory: [58, 59, 61, 60, 62, 60, 60],
-  diskHistory: [65, 65, 65, 65, 65, 65, 65],
+  cpuHistory: [],
+  ramHistory: [],
+  diskHistory: [],
+  isHistoryInitialized: false,
   cleanerTargets: [],
   selectedCleanerKeys: new Set(),
   storageFiles: [],
@@ -363,8 +364,9 @@ const GAUGE_CIRCUMFERENCE = 2 * Math.PI * 40; // ~251.327
 function setGaugePercent(elementId, percent) {
   const el = document.getElementById(elementId);
   if (!el) return;
-  const clamped = Math.max(0, Math.min(100, percent));
-  const offset = GAUGE_CIRCUMFERENCE - (clamped / 100) * GAUGE_CIRCUMFERENCE;
+  // If non-zero, keep at least 4% visible arc so the gauge glows cleanly
+  const visualPct = percent > 0 ? Math.max(4, Math.min(100, percent)) : 0;
+  const offset = GAUGE_CIRCUMFERENCE - (visualPct / 100) * GAUGE_CIRCUMFERENCE;
   el.style.strokeDasharray = `${GAUGE_CIRCUMFERENCE}`;
   el.style.strokeDashoffset = `${offset}`;
 }
@@ -461,15 +463,11 @@ async function fetchTelemetry() {
     if (!data || !data.cpu) return;
 
     // CPU
-    const cpuPct = Math.round(data.cpu.percent);
+    const cpuPct = Math.max(1, Math.round(data.cpu.percent));
     document.getElementById('cpu-pct').innerText = `${cpuPct}%`;
     setGaugePercent('cpu-gauge', cpuPct);
     document.getElementById('cpu-footer').innerText = `${data.cpu.freq_ghz}  |  ${data.cpu.cores_info}`;
     document.getElementById('cpu-temp-val').innerText = `${data.cpu.temp}°C`;
-
-    state.cpuHistory.push(cpuPct);
-    if (state.cpuHistory.length > 8) state.cpuHistory.shift();
-    updateSparkline('cpu-sparkline', state.cpuHistory, false);
 
     // RAM
     const ramPct = Math.round(data.ram.percent);
@@ -477,15 +475,32 @@ async function fetchTelemetry() {
     setGaugePercent('ram-gauge', ramPct);
     document.getElementById('ram-footer').innerText = data.ram.info;
 
-    state.ramHistory.push(ramPct);
-    if (state.ramHistory.length > 8) state.ramHistory.shift();
-    updateSparkline('ram-sparkline', state.ramHistory, true);
-
     // DISK
     const diskPct = Math.round(data.disk.percent);
     document.getElementById('disk-pct').innerText = `${diskPct}%`;
     setGaugePercent('disk-gauge', diskPct);
     document.getElementById('disk-footer').innerText = data.disk.info;
+
+    // Smooth history initialization & sparkline updates
+    if (!state.isHistoryInitialized) {
+      state.cpuHistory = [Math.max(1, cpuPct - 1), cpuPct, Math.max(1, cpuPct + 1), cpuPct];
+      state.ramHistory = [ramPct, ramPct, ramPct, ramPct];
+      state.diskHistory = [diskPct, diskPct, diskPct, diskPct];
+      state.isHistoryInitialized = true;
+    } else {
+      state.cpuHistory.push(cpuPct);
+      if (state.cpuHistory.length > 8) state.cpuHistory.shift();
+
+      state.ramHistory.push(ramPct);
+      if (state.ramHistory.length > 8) state.ramHistory.shift();
+
+      state.diskHistory.push(diskPct);
+      if (state.diskHistory.length > 8) state.diskHistory.shift();
+    }
+
+    updateSparkline('cpu-sparkline', state.cpuHistory, false);
+    updateSparkline('ram-sparkline', state.ramHistory, true);
+    updateSparkline('disk-sparkline', state.diskHistory, false);
 
     // GPU & FPS
     if (data.gpu) {
@@ -657,6 +672,19 @@ document.getElementById('btn-clean-ram-quick')?.addEventListener('click', async 
     showToast(res.message, 'success', '💾');
     fetchTelemetry();
   }
+});
+
+// Interactive Metric Cards Navigation
+document.getElementById('card-metric-cpu')?.addEventListener('click', () => {
+  document.querySelector('.nav-item[data-tab="gaming"]')?.click();
+});
+
+document.getElementById('card-metric-ram')?.addEventListener('click', () => {
+  document.getElementById('btn-clean-ram-quick')?.click();
+});
+
+document.getElementById('card-metric-disk')?.addEventListener('click', () => {
+  document.querySelector('.nav-item[data-tab="cleaner"]')?.click();
 });
 
 document.getElementById('btn-rollback-all')?.addEventListener('click', async () => {

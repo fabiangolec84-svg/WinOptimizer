@@ -493,6 +493,7 @@ body {
   backdrop-filter: var(--blur-glass);
   -webkit-backdrop-filter: var(--blur-glass);
   position: relative;
+  cursor: pointer;
   transition: all 0.25s ease;
 }
 
@@ -501,6 +502,15 @@ body {
   border: var(--border-glass-hover);
   box-shadow: var(--shadow-glass-hover);
   transform: translateY(-2px);
+}
+
+.metric-card:hover .chevron-icon {
+  transform: translateX(3px);
+  color: var(--accent-cyan);
+}
+
+.chevron-icon {
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .card-header-line {

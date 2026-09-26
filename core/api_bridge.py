@@ -121,7 +121,11 @@ class ApiBridge:
 
     def clean_ram(self):
         before, after, freed = clean_ram()
-        return {"freed_mb": freed, "message": f"Zwolniono {freed} MB pamięci RAM"}
+        if freed > 0:
+            msg = f"Zwolniono {freed} MB pamięci RAM."
+        else:
+            msg = "Pamięć RAM jest już optymalnie wyczyszczona."
+        return {"freed_mb": freed, "message": msg}
 
     def run_1click_boost(self):
         from tweaks.gaming_tweaks import set_gamedvr_disabled, set_game_mode_enabled, set_power_plan, set_network_throttling_disabled

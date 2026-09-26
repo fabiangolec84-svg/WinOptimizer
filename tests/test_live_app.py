@@ -5,8 +5,9 @@ import json
 import threading
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-if CURRENT_DIR not in sys.path:
-    sys.path.insert(0, CURRENT_DIR)
+PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 import webview
 from core.api_bridge import ApiBridge
@@ -77,6 +78,16 @@ def automated_tester(window):
         return { cpu, ram, disk };
     })()
     """)
+
+    run_step("2b. Dashboard - Test Metric Cards Click", """
+    (function() {
+        document.getElementById('card-metric-cpu')?.click();
+        const tabAfterCpu = state.activeTab;
+        document.querySelector('.nav-item[data-tab="dashboard"]')?.click();
+        return { tabAfterCpu };
+    })()
+    """)
+    time.sleep(0.5)
 
     run_step("3. Dashboard - Quick Clean RAM Button", """
     (function() {
@@ -320,7 +331,7 @@ def automated_tester(window):
 def main():
     auto_boost_daemon.start()
     bridge = ApiBridge()
-    html_path = os.path.join(CURRENT_DIR, "web", "index.html")
+    html_path = os.path.join(PROJECT_ROOT, "web", "index.html")
 
     window = webview.create_window(
         title="WinOptimizer 2.0 Pro - E2E Automated Test",
