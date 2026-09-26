@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinOptimizer - Gaming & System Booster</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Main Window Container -->
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <!-- App Brand / Header -->
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+            <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">WinOptimizer</span>
+          <span class="brand-tag">Gaming & System Booster</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="dashboard">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <span class="nav-label">Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-tab="cleaner">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          </div>
+          <span class="nav-label">Czyszczenie Dysku</span>
+        </button>
+
+        <button class="nav-item" data-tab="storage">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <span class="nav-label">Pliki & Pamięć</span>
+        </button>
+
+        <button class="nav-item" data-tab="gaming">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+          </div>
+          <span class="nav-label">Gaming & FPS</span>
+        </button>
+
+        <button class="nav-item" data-tab="profiles">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <span class="nav-label">Profile Gier</span>
+        </button>
+
+        <button class="nav-item" data-tab="privacy">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span class="nav-label">Debloat & Prywatność</span>
+        </button>
+
+        <button class="nav-item" data-tab="startup">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <span class="nav-label">Autostart</span>
+        </button>
+
+        <button class="nav-item" data-tab="bloatware">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <span class="nav-label">Aplikacje Systemowe</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <button class="nav-item nav-settings" data-tab="settings">
+          <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <span class="nav-label">Ustawienia & Prawo</span>
+        </button>
+        <div class="version-label">v2.0 Pro • Windows 10/11</div>
+      </div>
+
+      <!-- Glowing corner wave decoration -->
+      <div class="sidebar-wave-glow">
+        <svg viewBox="0 0 200 160" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+          <defs>
+            <linearGradient id="waveGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00d2ff" stop-opacity="0.8"/>
+              <stop offset="50%" stop-color="#7928ca" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#ff007a" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M 0 160 Q 40 90, 80 120 T 180 80 L 200 160 Z" fill="url(#waveGrad)" filter="blur(6px)"/>
+          <path d="M 0 160 C 30 110, 60 70, 110 100 C 150 120, 170 70, 200 60" fill="none" stroke="#00d2ff" stroke-width="2.5" filter="drop-shadow(0 0 8px #00d2ff)"/>
+        </svg>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      
+      <!-- TOP TELEMETRY & WINDOW CONTROL BAR -->
+      <header class="topbar pywebview-drag-region">
+        <div class="header-titles">
+          <h1 class="main-title">WinOptimizer <span class="cyan-accent">2.0 Pro</span></h1>
+          <p class="main-subtitle">Monitoruj podzespoły w czasie rzeczywistym, zwalniaj pamięć RAM i redukuj opóźnienia w grach.</p>
+        </div>
+
+        <div class="header-right-group">
+          <!-- System Status Pill -->
+          <div class="status-pill" id="system-status-pill">
+            <span class="status-dot"></span>
+            <span class="status-text" id="system-status-text">System działa optymalnie</span>
+          </div>
+
+          <div class="telemetry-divider"></div>
+
+          <!-- Hardware Telemetry Badges -->
+          <div class="telemetry-badges">
+            <div class="telemetry-item">
+              <svg class="telem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+              <div class="telem-data">
+                <span class="telem-label">CPU</span>
+                <span class="telem-val" id="cpu-temp-val">42°C</span>
+              </div>
+            </div>
+
+            <div class="telemetry-item">
+              <svg class="telem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+              <div class="telem-data">
+                <span class="telem-label">GPU</span>
+                <span class="telem-val" id="gpu-temp-val">45°C</span>
+              </div>
+            </div>
+
+            <div class="telemetry-item">
+              <div class="fps-badge-icon">FPS</div>
+              <div class="telem-data">
+                <span class="telem-label">FPS</span>
+                <span class="telem-val" id="fps-val">144</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Window Controls (Frameless) -->
+          <div class="window-controls">
+            <button class="win-btn" id="win-min" title="Minimalizuj">&#8211;</button>
+            <button class="win-btn" id="win-max" title="Maksymalizuj">&#9633;</button>
+            <button class="win-btn win-close" id="win-close" title="Zamknij">&#10005;</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- SCROLLABLE PAGE CONTAINER -->
+      <div class="content-scroll">
+        
+        <!-- ============================================== -->
+        <!-- TAB 1: DASHBOARD                               -->
+        <!-- ============================================== -->
+        <section id="tab-dashboard" class="tab-view active">
+          
+          <!-- ROW 1: 3 METRIC CARDS -->
+          <div class="metrics-row">
+            <!-- CPU CARD -->
+            <div class="metric-card">
+              <div class="card-header-line">
+                <span class="card-title">PROCESOR (CPU)</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="gauge-container">
+                  <svg class="gauge-svg" viewBox="0 0 100 100">
+                    <circle class="gauge-track" cx="50" cy="50" r="40" stroke-width="8"></circle>
+                    <circle class="gauge-bar cyan" id="cpu-gauge" cx="50" cy="50" r="40" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="213.5"></circle>
+                  </svg>
+                  <div class="gauge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                  </div>
+                </div>
+                <div class="metric-info">
+                  <div class="metric-pct" id="cpu-pct">15%</div>
+                  <div class="metric-sub">Obciążenie</div>
+                </div>
+                <div class="sparkline-wrapper">
+                  <svg class="sparkline-svg" id="cpu-sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="cyan-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#00d2ff" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#00d2ff" stop-opacity="0.0"/>
+                      </linearGradient>
+                    </defs>
+                    <path class="spark-fill" d="M 0 35 L 20 28 L 40 32 L 60 22 L 80 25 L 100 18 L 120 20 L 120 40 L 0 40 Z" fill="url(#cyan-grad)"/>
+                    <path class="spark-line cyan" d="M 0 35 L 20 28 L 40 32 L 60 22 L 80 25 L 100 18 L 120 20" fill="none" stroke="#00d2ff" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-footer" id="cpu-footer">4,20 GHz &nbsp;|&nbsp; 6 rdzeni / 12 wątków</div>
+            </div>
+
+            <!-- RAM CARD -->
+            <div class="metric-card">
+              <div class="card-header-line">
+                <span class="card-title">PAMIĘĆ (RAM)</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="gauge-container">
+                  <svg class="gauge-svg" viewBox="0 0 100 100">
+                    <circle class="gauge-track" cx="50" cy="50" r="40" stroke-width="8"></circle>
+                    <circle class="gauge-bar purple" id="ram-gauge" cx="50" cy="50" r="40" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="100.5"></circle>
+                  </svg>
+                  <div class="gauge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="17" y1="10" x2="17" y2="14"/></svg>
+                  </div>
+                </div>
+                <div class="metric-info">
+                  <div class="metric-pct" id="ram-pct">60%</div>
+                  <div class="metric-sub">Zajętość</div>
+                </div>
+                <div class="sparkline-wrapper">
+                  <svg class="sparkline-svg" id="ram-sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="purple-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#a855f7" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#a855f7" stop-opacity="0.0"/>
+                      </linearGradient>
+                    </defs>
+                    <path class="spark-fill" d="M 0 25 L 20 28 L 40 22 L 60 26 L 80 16 L 100 18 L 120 22 L 120 40 L 0 40 Z" fill="url(#purple-grad)"/>
+                    <path class="spark-line purple" d="M 0 25 L 20 28 L 40 22 L 60 26 L 80 16 L 100 18 L 120 22" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-footer" id="ram-footer">9,62 GB używane / 15,9 GB wolne</div>
+            </div>
+
+            <!-- DISK CARD -->
+            <div class="metric-card">
+              <div class="card-header-line">
+                <span class="card-title">DYSK SYSTEMOWY (C:)</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="gauge-container">
+                  <svg class="gauge-svg" viewBox="0 0 100 100">
+                    <circle class="gauge-track" cx="50" cy="50" r="40" stroke-width="8"></circle>
+                    <circle class="gauge-bar cyan" id="disk-gauge" cx="50" cy="50" r="40" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="87.9"></circle>
+                  </svg>
+                  <div class="gauge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </div>
+                </div>
+                <div class="metric-info">
+                  <div class="metric-pct" id="disk-pct">65%</div>
+                  <div class="metric-sub">Zajętość</div>
+                </div>
+                <div class="sparkline-wrapper">
+                  <svg class="sparkline-svg" id="disk-sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+                    <path class="spark-fill" d="M 0 30 L 20 28 L 40 24 L 60 27 L 80 20 L 100 22 L 120 20 L 120 40 L 0 40 Z" fill="url(#cyan-grad)"/>
+                    <path class="spark-line cyan" d="M 0 30 L 20 28 L 40 24 L 60 27 L 80 20 L 100 22 L 120 20" fill="none" stroke="#00d2ff" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-footer" id="disk-footer">77,6 GB wolne / 232,9 GB</div>
+            </div>
+          </div>
+
+          <!-- ROW 2: HERO 1-CLICK BOOST BANNER -->
+          <div class="hero-boost-banner">
+            <!-- Concentric Glowing Gamepad Orb -->
+            <div class="hero-orb-wrapper">
+              <div class="orb-pulse-outer"></div>
+              <div class="orb-pulse-middle"></div>
+              <div class="orb-inner">
+                <svg class="orb-gamepad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="6" y1="12" x2="10" y2="12"/>
+                  <line x1="8" y1="10" x2="8" y2="14"/>
+                  <line x1="15" y1="13" x2="15.01" y2="13"/>
+                  <line x1="18" y1="11" x2="18.01" y2="11"/>
+                  <rect x="2" y="6" width="20" height="12" rx="6"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="hero-content">
+              <div class="hero-header-title">
+                <svg class="hero-bolt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <h2>1-Click Game Boost</h2>
+              </div>
+              <p class="hero-desc">Szybkie czyszczenie bufora RAM (Standby List), aktywacja planu Ultimate Performance i wyłączenie dławienia sieci.</p>
+              
+              <div class="hero-actions">
+                <button class="btn-boost-primary" id="btn-1click-boost">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+                  <span>🚀 1-CLICK GAME BOOST</span>
+                </button>
+                <button class="btn-glass" id="btn-clean-ram-quick">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="12" y1="10" x2="12" y2="14"/></svg>
+                  <span>Zwolnij RAM</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Checklist & Fluid Aurora Wave -->
+            <div class="hero-checklist-container">
+              <div class="hero-aurora-bg">
+                <svg viewBox="0 0 320 200" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                  <defs>
+                    <linearGradient id="heroWaveGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+                      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.1"/>
+                      <stop offset="50%" stop-color="#7928ca" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#00d2ff" stop-opacity="0.3"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M 0 160 C 60 100, 120 180, 180 120 C 240 60, 280 140, 320 100 L 320 200 L 0 200 Z" fill="url(#heroWaveGrad)" filter="blur(8px)"/>
+                  <path d="M 0 140 C 70 90, 140 160, 210 105 C 260 60, 290 120, 320 90" fill="none" stroke="#7928ca" stroke-width="2.5" opacity="0.6"/>
+                  <path d="M 20 170 C 80 110, 160 180, 230 120 C 270 80, 300 130, 320 110" fill="none" stroke="#00d2ff" stroke-width="2" opacity="0.5"/>
+                </svg>
+              </div>
+              <ul class="hero-checklist">
+                <li><span class="chk-icon">&#10004;</span> Wyższy i stabilny FPS</li>
+                <li><span class="chk-icon">&#10004;</span> Mniejszy input lag</li>
+                <li><span class="chk-icon">&#10004;</span> Brak micro-stutteringu</li>
+                <li><span class="chk-icon">&#10004;</span> Szybsza reakcja systemu</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- AUTO-BOOST GAME DETECTION TOGGLE CARD -->
+          <div class="autoboost-banner-card">
+            <div class="autoboost-left">
+              <div class="autoboost-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div class="autoboost-text">
+                <div class="autoboost-title">
+                  <span id="txt-ab-title">Auto-Boost w tle (Wykrywanie gier)</span>
+                  <span class="badge active" id="ab-active-status">Działa w tle</span>
+                </div>
+                <p class="autoboost-desc" id="txt-ab-desc">
+                  Wykrywa uruchomienie gry (CS2, Valorant, GTA, Fortnite itp.), automatycznie czyści RAM i ustawia priorytet CPU na Wysoki.
+                </p>
+              </div>
+            </div>
+            <div class="autoboost-right">
+              <label class="switch">
+                <input type="checkbox" id="chk-auto-boost" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- ROW 3: PROCESSES TABLE -->
+          <div class="process-card">
+            <div class="proc-header">
+              <div class="proc-title">
+                <span class="fire-icon">&#128293;</span>
+                <h3>Procesy w tle & Użycie RAM</h3>
+              </div>
+              <button class="btn-glass btn-sm" id="btn-refresh-procs">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                <span>Odśwież listę</span>
+              </button>
+            </div>
+
+            <div class="proc-table-wrapper">
+              <table class="proc-table">
+                <thead>
+                  <tr>
+                    <th style="width: 28%;">Nazwa procesu</th>
+                    <th style="width: 30%;">Użycie RAM</th>
+                    <th style="width: 10%;">CPU</th>
+                    <th style="width: 18%;">Trend</th>
+                    <th style="width: 14%; text-align: right;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="proc-table-body">
+                  <!-- Dynamically populated or skeleton fallback -->
+                  <tr>
+                    <td>
+                      <div class="proc-name-cell">
+                        <div class="app-icon chrome-icon"></div>
+                        <span class="p-name">Google Chrome</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="ram-usage-cell">
+                        <span class="ram-num">2,8 GB (18%)</span>
+                        <div class="p-progress-track">
+                          <div class="p-progress-fill cyan" style="width: 48%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="cpu-num">3,2%</span></td>
+                    <td>
+                      <svg class="spark-mini" viewBox="0 0 80 18">
+                        <path d="M 0 14 L 15 10 L 30 13 L 45 7 L 60 11 L 80 6" fill="none" stroke="#00d2ff" stroke-width="1.8"/>
+                      </svg>
+                    </td>
+                    <td style="text-align: right;">
+                      <div class="status-cell">
+                        <span class="badge active">Aktywny</span>
+                        <button class="btn-more" title="Opcje">&#8942;</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="proc-name-cell">
+                        <div class="app-icon discord-icon"></div>
+                        <span class="p-name">Discord</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="ram-usage-cell">
+                        <span class="ram-num">1,2 GB (8%)</span>
+                        <div class="p-progress-track">
+                          <div class="p-progress-fill blue" style="width: 25%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="cpu-num">1,1%</span></td>
+                    <td>
+                      <svg class="spark-mini" viewBox="0 0 80 18">
+                        <path d="M 0 12 L 18 14 L 35 9 L 52 11 L 68 8 L 80 10" fill="none" stroke="#a855f7" stroke-width="1.8"/>
+                      </svg>
+                    </td>
+                    <td style="text-align: right;">
+                      <div class="status-cell">
+                        <span class="badge active">Aktywny</span>
+                        <button class="btn-more" title="Opcje">&#8942;</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="proc-name-cell">
+                        <div class="app-icon steam-icon"></div>
+                        <span class="p-name">Steam Client WebHelper</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="ram-usage-cell">
+                        <span class="ram-num">0,9 GB (6%)</span>
+                        <div class="p-progress-track">
+                          <div class="p-progress-fill cyan" style="width: 18%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="cpu-num">0,6%</span></td>
+                    <td>
+                      <svg class="spark-mini" viewBox="0 0 80 18">
+                        <path d="M 0 10 L 20 12 L 40 8 L 60 11 L 80 7" fill="none" stroke="#00d2ff" stroke-width="1.8"/>
+                      </svg>
+                    </td>
+                    <td style="text-align: right;">
+                      <div class="status-cell">
+                        <span class="badge active">Aktywny</span>
+                        <button class="btn-more" title="Opcje">&#8942;</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="proc-name-cell">
+                        <div class="app-icon defender-icon"></div>
+                        <span class="p-name">Antimalware Service Executable</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="ram-usage-cell">
+                        <span class="ram-num">0,6 GB (4%)</span>
+                        <div class="p-progress-track">
+                          <div class="p-progress-fill purple" style="width: 12%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="cpu-num">0,4%</span></td>
+                    <td>
+                      <svg class="spark-mini" viewBox="0 0 80 18">
+                        <path d="M 0 13 L 22 11 L 45 14 L 65 10 L 80 12" fill="none" stroke="#a855f7" stroke-width="1.8"/>
+                      </svg>
+                    </td>
+                    <td style="text-align: right;">
+                      <div class="status-cell">
+                        <span class="badge system">Systemowy</span>
+                        <button class="btn-more" title="Opcje">&#8942;</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="proc-name-cell">
+                        <div class="app-icon explorer-icon"></div>
+                        <span class="p-name">Windows Explorer</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="ram-usage-cell">
+                        <span class="ram-num">0,4 GB (3%)</span>
+                        <div class="p-progress-track">
+                          <div class="p-progress-fill blue" style="width: 9%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="cpu-num">0,2%</span></td>
+                    <td>
+                      <svg class="spark-mini" viewBox="0 0 80 18">
+                        <path d="M 0 15 L 20 12 L 40 10 L 60 13 L 80 11" fill="none" stroke="#00d2ff" stroke-width="1.8"/>
+                      </svg>
+                    </td>
+                    <td style="text-align: right;">
+                      <div class="status-cell">
+                        <span class="badge active">Aktywny</span>
+                        <button class="btn-more" title="Opcje">&#8942;</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ROW 4: SAFETY & ROLLBACK BANNER -->
+          <div class="safety-card">
+            <div class="safety-left">
+              <div class="safety-title">
+                <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <h3>Kopia Zapasowa & Przywracanie Systemu</h3>
+              </div>
+              <p class="safety-desc">Każda modyfikacja w rejestrze ma automatyczny backup JSON. W razie potrzeby cofniesz wszystkie zmiany jednym kliknięciem.</p>
+            </div>
+            <div class="safety-actions">
+              <button class="btn-cyan-solid" id="btn-rollback-all">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>Cofnij Zmiany Rejestru</span>
+              </button>
+              <button class="btn-glass" id="btn-create-restore-pt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Utwórz Punkt Przywracania</span>
+              </button>
+              <button class="btn-glass" id="btn-restart-explorer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                <span>Restart Eksploratora</span>
+              </button>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 2: CLEANER                                 -->
+        <!-- ============================================== -->
+        <section id="tab-cleaner" class="tab-view">
+          <div class="view-header">
+            <h2>🧹 Czyszczenie Pamięci Podręcznej & Dysku</h2>
+            <p>Usuń zbędne pliki tymczasowe, pamięć podręczną shaderów GPU oraz cache przeglądarek.</p>
+          </div>
+
+          <div class="browser-banner hidden" id="browser-warning-banner">
+            <div class="bb-left">
+              <span class="bb-icon">⚠️</span>
+              <span id="browser-warning-text">Wykryto otwarte przeglądarki. Aby dokładnie wyczyścić cache, zamknij je.</span>
+            </div>
+            <button class="btn-cyan-solid btn-sm" id="btn-close-browsers">Zamknij przeglądarki</button>
+          </div>
+
+          <div class="cleaner-grid" id="cleaner-categories-grid">
+            <!-- Populated via JS -->
+          </div>
+
+          <div class="action-footer-bar">
+            <div class="summary-left">
+              <span class="sum-label">Zaznaczono:</span>
+              <span class="sum-val" id="cleaner-total-selected">0 MB</span>
+            </div>
+            <div class="summary-btns">
+              <button class="btn-glass" id="btn-scan-cleaner">Skanuj ponownie</button>
+              <button class="btn-boost-primary" id="btn-execute-clean">WYCZYŚĆ ZAZNACZONE</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 3: STORAGE & FILE HUNTER                   -->
+        <!-- ============================================== -->
+        <section id="tab-storage" class="tab-view">
+          <div class="view-header">
+            <h2>📦 Łowca Plików & Programy</h2>
+            <p>Skanuj dyski w poszukiwaniu wielkich, zapomnianych plików i zarządzaj zainstalowanymi programami.</p>
+          </div>
+
+          <div class="sub-nav-pills">
+            <button class="sub-pill active" id="pill-file-hunter">🔍 Łowca Dużych Plików</button>
+            <button class="sub-pill" id="pill-app-uninstaller">🗑️ Odinstalowywanie Programów</button>
+          </div>
+
+          <!-- SUB-VIEW 1: FILE HUNTER -->
+          <div id="subview-file-hunter" class="subview-content active">
+            <div class="filter-bar-card">
+              <div class="filter-group">
+                <label>Lokalizacja skanowania:</label>
+                <select id="sel-storage-location" class="filter-select">
+                  <option value="ALL">Wszystkie Dyski (Szybki skan)</option>
+                  <option value="DOWNLOADS">Folder Pobrane</option>
+                  <option value="USER">Cały Profil Użytkownika</option>
+                  <option value="GAMES">Gry (Steam / Epic / Riot)</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>Minimalny rozmiar:</label>
+                <select id="sel-storage-min-size" class="filter-select">
+                  <option value="100">100 MB</option>
+                  <option value="500">500 MB</option>
+                  <option value="1024" selected>1 GB</option>
+                  <option value="5120">5 GB</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>Wiek / Ostatni dostęp:</label>
+                <select id="sel-storage-age" class="filter-select">
+                  <option value="0" selected>Dowolny wiek (Wszystkie)</option>
+                  <option value="30">Starsze niż 30 dni</option>
+                  <option value="90">Starsze niż 3 miesiące</option>
+                  <option value="180">Starsze niż 6 miesięcy</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>Kategoria:</label>
+                <select id="sel-storage-category" class="filter-select">
+                  <option value="all" selected>Wszystkie typy</option>
+                  <option value="installers">Instalatory (.exe, .msi, .iso)</option>
+                  <option value="archives">Archiwa (.zip, .rar, .7z)</option>
+                  <option value="videos">Wideo / Powtórki (.mp4, .mkv)</option>
+                </select>
+              </div>
+
+              <button class="btn-boost-primary btn-sm" id="btn-start-storage-scan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 15px; height: 15px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>ROZPOCZNIJ SKAN</span>
+              </button>
+            </div>
+
+            <div class="storage-results-card">
+              <div class="results-header">
+                <div class="res-info">
+                  Znaleziono: <strong id="storage-file-count">0</strong> plików (<strong id="storage-total-size">0 GB</strong>)
+                </div>
+                <div class="res-actions">
+                  <button class="btn-glass btn-sm" id="btn-storage-select-all">Zaznacz wszystkie</button>
+                  <button class="btn-danger btn-sm" id="btn-storage-delete-selected">Usuń zaznaczone</button>
+                </div>
+              </div>
+              <div class="storage-table-wrapper">
+                <table class="storage-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 40px;"><input type="checkbox" id="chk-storage-master"></th>
+                      <th>Nazwa pliku</th>
+                      <th>Kategoria</th>
+                      <th>Rozmiar</th>
+                      <th>Ostatni dostęp</th>
+                      <th>Ścieżka</th>
+                      <th style="text-align: right;">Akcja</th>
+                    </tr>
+                  </thead>
+                  <tbody id="storage-table-body">
+                    <tr><td colspan="7" class="empty-state">Wybierz parametry i kliknij 'Rozpocznij skan', aby odnaleźć pliki.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-VIEW 2: APP UNINSTALLER -->
+          <div id="subview-app-uninstaller" class="subview-content">
+            <div class="apps-list-card">
+              <div class="apps-header">
+                <input type="text" id="input-app-search" class="search-input" placeholder="🔍 Szukaj zainstalowanej aplikacji...">
+                <button class="btn-glass btn-sm" id="btn-refresh-apps">Odśwież listę</button>
+              </div>
+              <div class="apps-table-wrapper">
+                <table class="apps-table">
+                  <thead>
+                    <tr>
+                      <th>Nazwa programu</th>
+                      <th>Wydawca</th>
+                      <th>Wersja</th>
+                      <th>Data instalacji</th>
+                      <th style="text-align: right;">Odinstaluj</th>
+                    </tr>
+                  </thead>
+                  <tbody id="apps-table-body">
+                    <tr><td colspan="5" class="empty-state">Ładowanie aplikacji...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 4: GAMING & FPS                            -->
+        <!-- ============================================== -->
+        <section id="tab-gaming" class="tab-view">
+          <div class="view-header">
+            <h2>⚡ Tweaki Gaming & System</h2>
+            <p>Optymalizacje rejestru, planu zasilania i kolejkowania sieciowego pod kątem minimalnego input laga.</p>
+          </div>
+
+          <div class="tweak-toolbar">
+            <button class="btn-boost-primary btn-sm" id="btn-gaming-enable-all">Włącz zalecane</button>
+            <button class="btn-glass btn-sm" id="btn-gaming-restore-all">Przywróć domyślne</button>
+            <button class="btn-glass btn-sm" id="btn-flush-dns">Wyczyść cache DNS</button>
+          </div>
+
+          <div class="tweaks-grid" id="gaming-tweaks-grid">
+            <!-- Dynamically populated tweak cards with toggles -->
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 5: GAME PROFILES                           -->
+        <!-- ============================================== -->
+        <section id="tab-profiles" class="tab-view">
+          <div class="view-header">
+            <h2>🎯 Profile Gier & Esport</h2>
+            <p>Gotowe argumenty startowe, optymalizacje silników i czyszczenie pamięci podręcznej dla popularnych gier.</p>
+          </div>
+
+          <div class="game-profiles-grid" id="game-profiles-grid">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 6: PRIVACY & DEBLOAT                       -->
+        <!-- ============================================== -->
+        <section id="tab-privacy" class="tab-view">
+          <div class="view-header">
+            <h2>🛡️ Debloat & Prywatność Windows</h2>
+            <p>Wyłącz telemetrię, raportowanie błędów do Microsoftu i sponsorowane rekomendacje w menu Start.</p>
+          </div>
+
+          <div class="tweak-toolbar">
+            <button class="btn-boost-primary btn-sm" id="btn-privacy-disable-all">Wyłącz telemetrię i śledzenie</button>
+          </div>
+
+          <div class="tweaks-grid" id="privacy-tweaks-grid">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 7: AUTOSTART                               -->
+        <!-- ============================================== -->
+        <section id="tab-startup" class="tab-view">
+          <div class="view-header">
+            <h2>⚡ Programy Autostartu</h2>
+            <p>Zarządzaj aplikacjami startującymi z systemem. Wyłącz zbędne programy, żeby Windows bootował szybciej.</p>
+          </div>
+
+          <div class="tweak-toolbar">
+            <button class="btn-boost-primary btn-sm" id="btn-startup-disable-all">Wyłącz zbędne programy</button>
+            <button class="btn-glass btn-sm" id="btn-startup-refresh">Odśwież listę</button>
+          </div>
+
+          <div class="startup-list-card">
+            <table class="startup-table">
+              <thead>
+                <tr>
+                  <th>Aplikacja</th>
+                  <th>Ścieżka / Polecenie</th>
+                  <th>Wpływ na start</th>
+                  <th style="text-align: right;">Stan</th>
+                </tr>
+              </thead>
+              <tbody id="startup-table-body">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 8: BLOATWARE                               -->
+        <!-- ============================================== -->
+        <section id="tab-bloatware" class="tab-view">
+          <div class="view-header">
+            <h2>📦 Aplikacje Systemowe (Bloatware)</h2>
+            <p>Bezpiecznie usuwaj preinstalowane aplikacje Windows (Xbox, Pogoda, Cortana itp.), które niepotrzebnie zajmują miejsce.</p>
+          </div>
+
+          <div class="bloatware-list-card">
+            <div class="bloatware-grid" id="bloatware-grid">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 9: SETTINGS & LEGAL                        -->
+        <!-- ============================================== -->
+        <section id="tab-settings" class="tab-view">
+          <div class="view-header">
+            <h2>⚙️ Ustawienia & Informacje Prawne</h2>
+            <p>Specyfikacja Twojego PC, informacje o aplikacji oraz pełna dokumentacja prawna (RODO, licencje, EULA).</p>
+          </div>
+
+          <div class="sub-nav-pills">
+            <button class="sub-pill active" id="pill-set-specs">🖥️ Specyfikacja PC</button>
+            <button class="sub-pill" id="pill-set-privacy">🛡️ Polityka Prywatności (RODO)</button>
+            <button class="sub-pill" id="pill-set-eula">📜 Regulamin & EULA (AS IS)</button>
+            <button class="sub-pill" id="pill-set-licenses">⚖️ Licencje Open Source</button>
+            <button class="sub-pill" id="pill-set-faq">ℹ️ Windows SmartScreen FAQ</button>
+          </div>
+
+          <!-- SUB-VIEW 1: SPECS & ABOUT -->
+          <div id="subview-set-specs" class="subview-content active">
+            <div class="settings-card">
+              <h3>Specyfikacja Twojego Komputera</h3>
+              <div class="specs-grid" id="specs-details-grid">
+                <div class="spec-row"><span class="spec-key">System Operacyjny:</span> <span class="spec-val" id="spec-os">Windows 11 Pro 64-bit</span></div>
+                <div class="spec-row"><span class="spec-key">Procesor:</span> <span class="spec-val" id="spec-cpu">Ładowanie...</span></div>
+                <div class="spec-row"><span class="spec-key">Karta Graficzna:</span> <span class="spec-val" id="spec-gpu">Ładowanie...</span></div>
+                <div class="spec-row"><span class="spec-key">Pamięć RAM:</span> <span class="spec-val" id="spec-ram">Ładowanie...</span></div>
+              </div>
+            </div>
+
+            <div class="settings-card" style="margin-top: 14px;">
+              <h3>O programie WinOptimizer</h3>
+              <p style="color: #94a3b8; font-size: 13px; line-height: 1.6; margin-top: 10px;">
+                WinOptimizer powstał jako lekkie, bezkompromisowe narzędzie dla graczy i entuzjastów PC. Pomaga utrzymać Windows w czystości, zwalniać pamięć RAM i ograniczać spadki klatek (micro-stuttering) w grach. Aplikacja nie zbiera żadnych danych — wszystko działa lokalnie na Twoim komputerze.
+              </p>
+              <div class="legal-badge-row">
+                <span class="badge active">Brak telemetrii</span>
+                <span class="badge active">100% Offline / Local</span>
+                <span class="badge system">Zgodność z RODO</span>
+              </div>
+            </div>
+
+            <div class="settings-card" style="margin-top: 14px;">
+              <h3 id="txt-lang-heading">Język interfejsu / Language</h3>
+              <p style="color: #94a3b8; font-size: 13px; line-height: 1.6; margin-top: 6px;" id="txt-lang-sub">
+                Wybierz preferowany język wyświetlania w aplikacji WinOptimizer. Zmiana jest natychmiastowa.
+              </p>
+              <div class="lang-selector-group">
+                <button type="button" class="btn-lang active" id="btn-lang-pl">
+                  <span>🇵🇱</span> Polski (Domyślny)
+                </button>
+                <button type="button" class="btn-lang" id="btn-lang-en">
+                  <span>🇬🇧</span> English (US)
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-card" style="margin-top: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 id="txt-updates-heading">Aktualizacje programu</h3>
+                <span class="badge active" id="txt-app-version-badge">v2.0 Pro (Najnowsza)</span>
+              </div>
+              <p style="color: #94a3b8; font-size: 13px; line-height: 1.6; margin-top: 6px;" id="txt-updates-sub">
+                Automatyczne sprawdzanie nowych wydań, ulepszeń wydajności i bazy procesów gier.
+              </p>
+              <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px;">
+                <button type="button" class="btn btn-secondary" id="btn-check-updates" style="padding: 9px 18px; font-size: 12.5px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                  <span id="txt-check-updates-btn">Sprawdź dostępność aktualizacji</span>
+                </button>
+                <span id="update-status-box" style="font-size: 12.5px; color: #10b981; display: none;"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-VIEW 2: PRIVACY POLICY (RODO) -->
+          <div id="subview-set-privacy" class="subview-content">
+            <div class="legal-reader-card">
+              <div class="legal-reader-header">
+                <h3>🛡️ Polityka Prywatności (RODO / GDPR)</h3>
+                <span class="badge active">Local-Only Processing</span>
+              </div>
+              <div class="legal-reader-body" id="text-privacy-policy">Ładowanie treści...</div>
+            </div>
+          </div>
+
+          <!-- SUB-VIEW 3: EULA -->
+          <div id="subview-set-eula" class="subview-content">
+            <div class="legal-reader-card">
+              <div class="legal-reader-header">
+                <h3>📜 Regulamin Użytkowania i Licencja (EULA)</h3>
+                <span class="badge system">Klauzula AS IS • Art. 473 k.c.</span>
+              </div>
+              <div class="legal-reader-body" id="text-eula">Ładowanie treści...</div>
+            </div>
+          </div>
+
+          <!-- SUB-VIEW 4: OPEN SOURCE LICENSES -->
+          <div id="subview-set-licenses" class="subview-content">
+            <div class="legal-reader-card">
+              <div class="legal-reader-header">
+                <h3>⚖️ Licencje Komponentów Open Source</h3>
+                <span class="badge active">BSD 3-Clause • MIT • PSFL</span>
+              </div>
+              <div class="legal-reader-body" id="text-licenses">Ładowanie treści...</div>
+            </div>
+          </div>
+
+          <!-- SUB-VIEW 5: SMARTSCREEN FAQ -->
+          <div id="subview-set-faq" class="subview-content">
+            <div class="legal-reader-card">
+              <div class="legal-reader-header">
+                <h3>ℹ️ Windows Defender / SmartScreen FAQ</h3>
+                <span class="badge system">Informacje dla Użytkowników</span>
+              </div>
+              <div class="legal-reader-body" id="text-faq">Ładowanie treści...</div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ONBOARDING / FIRST-RUN LEGAL CONSENT MODAL -->
+  <div class="modal-backdrop hidden" id="modal-onboarding">
+    <div class="modal-glass-card">
+      <div class="modal-header">
+        <div class="modal-icon-glow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="modal-titles">
+          <h2>Cześć! Zanim zaczniemy...</h2>
+          <p>Krótka informacja o bezpieczeństwie i warunkach korzystania</p>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-feature-box">
+          <div class="feat-item">
+            <span class="feat-icon">🔒</span>
+            <div>
+              <strong>Żadnego śledzenia (Zero Telemetrii)</strong>
+              <p>Program działa w 100% offline. Nie wysyłamy żadnych danych na zewnętrzne serwery — cała analiza i czyszczenie odbywa się wyłącznie na Twoim komputerze.</p>
+            </div>
+          </div>
+
+          <div class="feat-item">
+            <span class="feat-icon">🛡️</span>
+            <div>
+              <strong>Automatyczny Rollback</strong>
+              <p>Każda modyfikacja rejestru ma kopię zapasową zapisaną w pliku JSON. W każdej chwili możesz jednym kliknięciem przywrócić pierwotne ustawienia Windowsa.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-agreements">
+          <label class="agreement-label">
+            <input type="checkbox" id="chk-accept-eula" class="modal-chk">
+            <span>Zapoznałem(-am) się z <a href="#" id="link-show-eula">Regulaminem (EULA)</a> i <a href="#" id="link-show-privacy">Polityką Prywatności</a>. Rozumiem, że program wprowadza zmiany w konfiguracji systemu i korzystam z niego świadomie.</span>
+          </label>
+
+          <label class="agreement-label highlight">
+            <input type="checkbox" id="chk-initial-restore" class="modal-chk" checked>
+            <span><strong>Zalecane:</strong> Utwórz Punkt Przywracania Systemu Windows przed pierwszą optymalizacją.</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-boost-primary btn-full" id="btn-accept-onboarding" disabled>
+          <span>WEJDŹ DO PROGRAMU</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Context Menu for Process Table -->
+  <div class="context-menu" id="proc-context-menu">
+    <div class="ctx-item" id="ctx-kill-proc">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      <span>Zakończ proces (Zwolnij RAM)</span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+================================================================================
+                        UMOWA LICENCYJNA (EULA) - WINOPTIMIZER 2.0 PRO
+================================================================================
+
+1. POSTANOWIENIA OGÓLNE
+Niniejsza umowa reguluje zasady korzystania z programu WinOptimizer 2.0 Pro.
+Instalując oprogramowanie, potwierdzasz zapoznanie się z niniejszymi warunkami.
+
+2. CHARAKTER OPROGRAMOWANIA (AS IS)
+Oprogramowanie dostarczane jest w stanie, w jakim się znajduje ("AS IS"),
+zgodnie z art. 473 § 1 Kodeksu Cywilnego. Twórca nie ponosi odpowiedzialności
+za ewentualne skutki wynikające z modyfikacji plików systemowych lub usuwania
+danych wybranych przez Użytkownika.
+
+3. PRYWATNOŚĆ I BEZPIECZEŃSTWO (ZERO TELEMETRII)
+Program WinOptimizer działa w 100% lokalnie na Twoim komputerze i nie wysyła
+żadnych danych ani telemetrii przez sieć Internet (zgodność z RODO / GDPR).
+Wszelkie modyfikacje rejestru są zabezpieczane automatycznymi kopiami zapasowymi
+w formacie JSON, które można w dowolnej chwili cofnąć jednym kliknięciem.
+
+4. PRAWO DO KORZYSTANIA
+Użytkownik otrzymuje bezpłatną, niewyłączną licencję na instalację i użytkowanie
+oprogramowania do celów osobistych oraz komercyjnych.
+
+================================================================================
+                   Dziękujemy za wybranie WinOptimizer 2.0 Pro!
+================================================================================
